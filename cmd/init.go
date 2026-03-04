@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"git-issues/internal/config"
+	"github.com/steviee/git-issues/internal/config"
 
 	"github.com/spf13/cobra"
 )
@@ -91,6 +91,20 @@ gh issue list --state open --json number,title,body,labels --limit 500 | \
 
 After import, all issues are local Markdown files tracked by git.
 From here, use git-issues commands to manage them.
+
+## Working with Git Worktrees
+
+**Rule: New issues only on main. Updating existing issues: any branch.**
+
+` + "`" + `issues new` + "`" + ` assigns IDs sequentially. Running it on two branches in parallel causes ID collisions and merge conflicts. Always create new issues on the main branch first, then work on them in your feature branch/worktree.
+
+Updating existing issues (` + "`" + `issues claim` + "`" + `, ` + "`" + `issues done` + "`" + `, ` + "`" + `issues set` + "`" + `) is safe from any branch, as long as each issue is only modified by one branch at a time.
+
+Guidelines:
+1. **Claim before working.** ` + "`" + `issues claim <id>` + "`" + ` signals that you own this issue. No other branch should modify it.
+2. **Only modify your claimed issue.** Don't edit, close, or relate other issues from a feature branch.
+3. **Run ` + "`" + `issues check --fix` + "`" + ` after merging.** This repairs any broken bidirectional relations.
+4. **Commit .issues/ changes together with the related code changes.** This keeps issue state and code in the same commit.
 `
 
 func init() {

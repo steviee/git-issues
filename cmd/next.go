@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sort"
 
-	"git-issues/internal/issue"
+	"github.com/steviee/git-issues/internal/issue"
 
 	"github.com/spf13/cobra"
 )

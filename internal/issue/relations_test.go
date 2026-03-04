@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"git-issues/internal/config"
+	"github.com/steviee/git-issues/internal/config"
 )
 
 func TestInverse(t *testing.T) {

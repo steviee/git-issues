@@ -7,16 +7,38 @@ No database. No server. No accounts. Just files and git.
 ## Install
 
 ```bash
+# With Go (recommended)
+go install github.com/steviee/git-issues@latest
+
 # From source
 git clone git@github.com:steviee/git-issues.git
 cd git-issues
 make install   # builds and copies to /usr/local/bin/issues
-
-# Or build only
-make build     # produces ./issues binary
 ```
 
-Requires Go 1.22+.
+Requires Go 1.22+. The `go install` command places the binary in `$GOPATH/bin` (or `$HOME/go/bin`). Make sure this directory is in your `$PATH`.
+
+## Setup (for AI agents)
+
+```bash
+# 1. Install
+go install github.com/steviee/git-issues@latest
+
+# 2. Initialize in your project
+cd /path/to/your/project
+issues init
+
+# 3. Read the agent context
+cat .issues/.agent.md
+
+# 4. Start working
+issues next              # find next actionable issue
+issues claim <id>        # mark as in-progress
+# ... do the work ...
+issues done <id>         # close when finished
+```
+
+The `.issues/.agent.md` file contains the full schema, all commands, and the recommended workflow.
 
 ## Quick Start
 
@@ -187,6 +209,18 @@ gh issue list --state open --json number,title,body,labels --limit 500 | \
     fi
   done
 ```
+
+## Working with Git Worktrees
+
+git-issues works in multi-worktree setups. One rule to remember:
+
+> **New issues: only on `main`.** Updating existing issues (claim, done, set): any branch.
+
+This prevents ID collisions from parallel `issues new`. Additional tips:
+
+- **Claim before working** — `issues claim <id>` prevents two worktrees from modifying the same issue
+- **Only modify your claimed issue** from a feature branch
+- **Run `issues check --fix` after merging** — repairs any broken relations
 
 ## Configuration
 

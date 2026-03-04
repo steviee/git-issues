@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"git-issues/internal/config"
-	"git-issues/internal/git"
-	"git-issues/internal/issue"
+	"github.com/steviee/git-issues/internal/config"
+	"github.com/steviee/git-issues/internal/git"
+	"github.com/steviee/git-issues/internal/issue"
 
 	"github.com/spf13/cobra"
 )

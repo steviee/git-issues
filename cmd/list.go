@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"git-issues/internal/issue"
+	"github.com/steviee/git-issues/internal/issue"
 
 	"github.com/spf13/cobra"
 )

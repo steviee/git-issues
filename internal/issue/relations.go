@@ -1,8 +1,8 @@
 package issue
 
 import (
-	"git-issues/internal/config"
-	"git-issues/internal/git"
+	"github.com/steviee/git-issues/internal/config"
+	"github.com/steviee/git-issues/internal/git"
 )
 
 type RelationEntry struct {

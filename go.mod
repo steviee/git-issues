@@ -1,4 +1,4 @@
-module git-issues
+module github.com/steviee/git-issues
 
 go 1.25.0
 

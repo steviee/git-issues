@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"git-issues/internal/config"
-	"git-issues/internal/issue"
+	"github.com/steviee/git-issues/internal/config"
+	"github.com/steviee/git-issues/internal/issue"
 
 	"github.com/spf13/cobra"
 )
