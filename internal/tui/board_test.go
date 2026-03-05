@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"strings"
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -261,10 +262,47 @@ func TestDetailView(t *testing.T) {
 		t.Error("Enter should open detail view")
 	}
 
+	// Viewport should be initialized with content
+	if m.detailVP.TotalLineCount() == 0 {
+		t.Error("detail viewport should have content after Enter")
+	}
+
 	// Escape closes it
 	m = update(m, tea.KeyMsg{Type: tea.KeyEscape})
 	if m.showDetail {
 		t.Error("Escape should close detail view")
+	}
+}
+
+func TestDetailViewMarkdownRendering(t *testing.T) {
+	cfg := config.Default()
+	issues := []*issue.Issue{
+		{
+			ID: 1, Title: "Markdown test", Status: "open", Priority: "high",
+			Labels: []string{"bug"}, Created: "2026-01-01", Updated: "2026-01-01",
+			Body: "## Heading\n\n- item one\n- item two\n\n```go\nfmt.Println(\"hello\")\n```\n",
+		},
+	}
+	m := NewModel(issues, "/tmp/test", cfg)
+	m.width = 120
+	m.height = 40
+
+	// Enter detail view
+	m = update(m, tea.KeyMsg{Type: tea.KeyEnter})
+	if !m.showDetail {
+		t.Fatal("Enter should open detail view")
+	}
+
+	content := m.detailVP.View()
+
+	// The rendered output should not contain the raw markdown heading marker
+	if strings.Contains(content, "## Heading") {
+		t.Error("body should be rendered markdown, not raw (found '## Heading')")
+	}
+
+	// Should contain the heading text (rendered by glamour)
+	if !strings.Contains(content, "Heading") {
+		t.Error("rendered body should contain heading text 'Heading'")
 	}
 }
 

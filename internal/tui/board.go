@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"github.com/charmbracelet/bubbles/key"
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/fsnotify/fsnotify"
 	"github.com/steviee/git-issues/internal/config"
@@ -49,6 +51,7 @@ type Model struct {
 	cfg        *config.Config
 	filters    []FilterFunc
 	showDetail bool
+	detailVP   viewport.Model
 	err        error
 	watcher    *fsnotify.Watcher
 }
@@ -148,6 +151,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
+		if m.showDetail {
+			if iss := m.columns[m.activeCol].Selected(); iss != nil {
+				m.initDetailViewport(iss)
+			}
+		}
 		return m, nil
 
 	case savedMsg:
@@ -179,7 +187,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, m.watchFiles()
 
 	case tea.KeyMsg:
-		// Detail view: only Esc and quit work
+		// Detail view: Esc/quit or forward to viewport
 		if m.showDetail {
 			switch {
 			case key.Matches(msg, m.keys.Escape):
@@ -190,8 +198,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.watcher.Close()
 				}
 				return m, tea.Quit
+			default:
+				var cmd tea.Cmd
+				m.detailVP, cmd = m.detailVP.Update(msg)
+				return m, cmd
 			}
-			return m, nil
 		}
 
 		switch {
@@ -224,8 +235,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, m.moveIssue(1)
 
 		case key.Matches(msg, m.keys.Enter):
-			if m.columns[m.activeCol].Selected() != nil {
+			if iss := m.columns[m.activeCol].Selected(); iss != nil {
 				m.showDetail = true
+				m.initDetailViewport(iss)
 			}
 		}
 	}
@@ -310,13 +322,16 @@ func (m Model) boardView() string {
 	return board + "\n" + help
 }
 
-func (m Model) detailView() string {
-	iss := m.columns[m.activeCol].Selected()
-	if iss == nil {
-		return "No issue selected"
+// initDetailViewport builds the header + rendered markdown body and sets them
+// as viewport content. Called once when Enter is pressed.
+func (m *Model) initDetailViewport(iss *issue.Issue) {
+	// Available content width inside the detail border (border=1 + padding=2 on each side)
+	contentWidth := m.width - 6
+	if contentWidth < 20 {
+		contentWidth = 20
 	}
 
-	separator := strings.Repeat("━", m.width-6)
+	separator := strings.Repeat("━", contentWidth)
 
 	var b strings.Builder
 	b.WriteString(separator + "\n")
@@ -354,13 +369,48 @@ func (m Model) detailView() string {
 	}
 
 	if iss.Body != "" {
-		b.WriteString("\n" + separator + "\n\n")
-		b.WriteString(iss.Body)
+		b.WriteString("\n" + separator + "\n")
+		glamourStyle := "dark"
+		if !lipgloss.HasDarkBackground() {
+			glamourStyle = "light"
+		}
+		r, err := glamour.NewTermRenderer(
+			glamour.WithStandardStyle(glamourStyle),
+			glamour.WithWordWrap(contentWidth),
+		)
+		if err == nil {
+			rendered, renderErr := r.Render(iss.Body)
+			if renderErr == nil {
+				b.WriteString(rendered)
+			} else {
+				b.WriteString("\n" + iss.Body)
+			}
+		} else {
+			b.WriteString("\n" + iss.Body)
+		}
 	}
 
-	b.WriteString("\n\n" + statusBarStyle.Render(" Esc: back  q: quit"))
+	// Viewport height = terminal height minus border/padding (4) minus status bar (2)
+	vpHeight := m.height - 6
+	if vpHeight < 5 {
+		vpHeight = 5
+	}
 
-	return detailBorderStyle.Width(m.width - 4).Render(b.String())
+	m.detailVP = viewport.New(contentWidth, vpHeight)
+	m.detailVP.MouseWheelEnabled = true
+	m.detailVP.SetContent(b.String())
+}
+
+func (m Model) detailView() string {
+	if m.columns[m.activeCol].Selected() == nil {
+		return "No issue selected"
+	}
+
+	help := statusBarStyle.Render(" j/k: scroll  Esc: back  q: quit")
+
+	content := m.detailVP.View() + "\n" + help
+
+	return detailBorderStyle.Width(m.width - 4).Render(content)
 }
 
 func formatIDs(ids []int) string {
