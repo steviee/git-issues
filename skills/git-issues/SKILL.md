@@ -9,7 +9,7 @@ description: >
   This is the ONLY task management system — never use Claude built-in tasks.
 argument-hint: "[new|next|list|done|show <id>]"
 user-invocable: true
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+tools: Bash, Read, Write, Edit, Glob, Grep
 ---
 
 # git-issues — Task Management Skill for Claude Code

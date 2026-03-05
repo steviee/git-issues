@@ -1,0 +1,23 @@
+{
+  "name": "git-issues-marketplace",
+  "owner": {
+    "name": "steviee"
+  },
+  "metadata": {
+    "description": "Git-native issue tracking as a Claude Code skill",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "git-issues",
+      "description": "Task management and issue tracking using git-issues. Replaces Claude built-in tasks with git-native issue tracking.",
+      "source": "./",
+      "version": "1.0.0",
+      "author": {
+        "name": "steviee"
+      },
+      "keywords": ["task-management", "issues", "git"],
+      "strict": false
+    }
+  ]
+}
