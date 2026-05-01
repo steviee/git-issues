@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   output: 'static',
   site: 'https://git-issues.dev',
+  base: '/git-issues',
   integrations: [react()],
 
   vite: {
