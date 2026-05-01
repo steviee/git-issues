@@ -1,0 +1,96 @@
+---
+import { Code2 } from '@lucide/astro';
+
+const steps = [
+  {
+    cmd: 'issues next',
+    desc: 'Find the next unblocked, highest-priority issue',
+  },
+  {
+    cmd: 'issues claim <id>',
+    desc: 'Mark as in-progress',
+  },
+  {
+    cmd: 'Do the work',
+    desc: 'The agent implements',
+    isCode: false,
+  },
+  {
+    cmd: 'issues done <id>',
+    desc: 'Close the issue, auto-staged for commit',
+  },
+];
+---
+
+<section id="agents" class="py-32 px-6 md:px-8 lg:px-12 border-t border-[#262626]">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="text-center mb-16">
+      <div class="inline-flex mb-4">
+        <span class="font-mono text-xs font-medium uppercase tracking-[0.05em] text-[#525252] bg-[#141414] border border-[#262626] rounded-full px-3 py-1">
+          AI Agents
+        </span>
+      </div>
+      <h2 class="text-4xl md:text-[44px] font-bold leading-[1.1] tracking-[-0.02em]">
+        Built for
+        <span class="text-[#22c55e]">AI Agents</span>
+      </h2>
+      <p class="mt-4 text-lg text-[#a3a3a3] max-w-[600px] mx-auto">
+        The <code class="text-[#f5f5f5]">issues next → claim → done</code> workflow replaces manual task management for coding agents.
+      </p>
+    </div>
+
+    <!-- Workflow Steps -->
+    <div class="max-w-[800px] mx-auto">
+      <div class="relative">
+        <!-- Connecting line -->
+        <div class="absolute left-[19px] top-8 bottom-8 w-px bg-[#262626] hidden md:block" />
+
+        <div class="flex flex-col gap-8">
+          {steps.map((step, index) => (
+            <div class="flex items-start gap-4 md:gap-6">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-[#141414] border border-[#262626] shrink-0 z-10">
+                <span class="font-mono text-sm font-bold text-[#22c55e]">{index + 1}</span>
+              </div>
+              <div class="flex-1 pb-2">
+                <div class="font-mono text-sm text-[#f5f5f5] mb-1">
+                  {step.isCode !== false ? (
+                    <span class="bg-[#0c0c0c] border border-[#1f1f1f] rounded-md px-3 py-1.5 inline-block">{step.cmd}</span>
+                  ) : (
+                    <span class="text-[#a3a3a3]">{step.cmd}</span>
+                  )}
+                </div>
+                <p class="text-sm text-[#a3a3a3]">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent.md preview -->
+    <div class="max-w-[800px] mx-auto mt-16">
+      <div class="rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] overflow-hidden">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-[#1f1f1f]">
+          <Code2 size={14} class="text-[#525252] w-[14px] h-[14px]" />
+          <span class="font-mono text-xs text-[#525252]">.issues/.agent.md</span>
+        </div>
+        <div class="p-5 font-mono text-sm leading-relaxed">
+          <div class="text-[#525252] mb-2"># git-issues agent context</div>
+          <div class="text-[#525252] mb-2">## Schema</div>
+          <div class="text-[#a3a3a3] mb-1">Each issue is a Markdown file with YAML frontmatter.</div>
+          <div class="h-2" />
+          <div class="text-[#525252]">## Agent-Optimized Commands</div>
+          <div class="text-[#a3a3a3]">issues next            # next actionable issue</div>
+          <div class="text-[#a3a3a3]">issues claim <id>     # mark in-progress</div>
+          <div class="text-[#a3a3a3]">issues done <id>      # close and stage</div>
+          <div class="h-2" />
+          <div class="text-[#525252]">## Recommended Workflow</div>
+          <div class="text-[#a3a3a3]">1. issues next → get next issue</div>
+          <div class="text-[#a3a3a3]">2. issues claim <id> → mark started</div>
+          <div class="text-[#a3a3a3]">3. Do the work</div>
+          <div class="text-[#a3a3a3]">4. issues done <id> → close</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

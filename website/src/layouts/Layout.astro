@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'git-issues — Issues that move with your code',
+  description = 'A git-native issue tracker. No database, no server, no accounts. Issues are Markdown files with YAML frontmatter, stored in your repository and version-controlled alongside your code.'
+} = Astro.props;
+
+const canonical = 'https://git-issues.dev';
+const ogImage = 'https://git-issues.dev/og-image.png';
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-[100dvh] bg-[#0a0a0a] text-[#f5f5f5] antialiased">
+    <slot />
+  </body>
+</html>

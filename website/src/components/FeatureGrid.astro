@@ -1,0 +1,65 @@
+---
+import { Database, Bot, GitFork, GitCommit, Layout, Terminal } from '@lucide/astro';
+
+const features = [
+  {
+    icon: Database,
+    title: 'Zero Infrastructure',
+    description: 'One Go binary. No Docker, no server, no database. Install, run `issues init`, done.',
+  },
+  {
+    icon: Bot,
+    title: 'AI-Native Workflow',
+    description: '`issues next`, `claim`, `done`. `.agent.md` gives agents full context. JSON output for automation.',
+  },
+  {
+    icon: GitFork,
+    title: 'Bidirectional Relations',
+    description: '`blocks`, `depends-on`, `related-to`, `duplicates`. Both sides sync automatically.',
+  },
+  {
+    icon: GitCommit,
+    title: 'Auto-Staged',
+    description: 'Every change is automatically `git add`-ed. Your issue state travels with the commit.',
+  },
+  {
+    icon: Layout,
+    title: 'Kanban Board',
+    description: 'Interactive TUI with Bubble Tea. `issues board` opens a full Kanban board in your terminal.',
+  },
+  {
+    icon: Terminal,
+    title: 'Human & Machine',
+    description: '`--format table` for humans, `--format json` for scripts, `--format ids` for pipes.',
+  },
+];
+---
+
+<section id="features" class="py-32 px-6 md:px-8 lg:px-12 border-t border-[#262626]">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="text-center mb-16">
+      <div class="inline-flex mb-4">
+        <span class="font-mono text-xs font-medium uppercase tracking-[0.05em] text-[#525252] bg-[#141414] border border-[#262626] rounded-full px-3 py-1">
+          Features
+        </span>
+      </div>
+      <h2 class="text-4xl md:text-[44px] font-bold leading-[1.1] tracking-[-0.02em]">
+        Everything you need.
+        <br />
+        <span class="text-[#22c55e]">Nothing you don't.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {features.map((feature) => (
+        <div class="group rounded-xl bg-[#141414] border border-[#262626] p-6 hover:border-[#525252] transition-colors">
+          <div class="mb-4">
+            <feature.icon size={24} className="text-[#22c55e]" />
+          </div>
+          <h3 class="text-lg font-semibold text-[#f5f5f5] mb-2">{feature.title}</h3>
+          <p class="text-sm text-[#a3a3a3] leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

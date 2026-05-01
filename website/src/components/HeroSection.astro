@@ -1,0 +1,113 @@
+---
+import InstallCommand from './InstallCommand.tsx';
+---
+
+<section class="pt-32 pb-16 md:pt-40 md:pb-24 px-6 md:px-8 lg:px-12">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Left: Text -->
+      <div class="flex flex-col gap-6">
+        <!-- Pre-title -->
+        <div class="inline-flex">
+          <span class="font-mono text-xs font-medium uppercase tracking-[0.05em] text-[#525252] bg-[#141414] border border-[#262626] rounded-full px-3 py-1">
+            A git-native issue tracker
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-[40px] md:text-[56px] lg:text-[64px] font-black leading-[1.05] tracking-[-0.03em] text-balance">
+          Issues that move
+          <br />
+          <span class="text-[#22c55e]">with your code</span>
+        </h1>
+
+        <!-- Subline -->
+        <p class="text-lg text-[#a3a3a3] leading-relaxed max-w-[520px]">
+          Never out of sync. No database, no server, no accounts — just Markdown files in your repo, version-controlled alongside your code.
+        </p>
+
+        <!-- Install + CTAs -->
+        <div class="flex flex-col gap-4 mt-2">
+          <InstallCommand client:load />
+
+          <div class="flex items-center gap-3">
+            <a
+              href="#features"
+              class="inline-flex items-center justify-center h-10 px-5 rounded-full bg-[#22c55e] text-[#0a0a0a] font-semibold text-sm hover:bg-[#16a34a] transition-colors"
+            >
+              Get Started
+            </a>
+            <a
+              href="https://github.com/steviee/git-issues#readme"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center h-10 px-5 rounded-full border border-[#262626] text-[#a3a3a3] font-medium text-sm hover:border-[#525252] hover:text-[#f5f5f5] transition-colors"
+            >
+              Read the Docs
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="relative flex justify-center lg:justify-end">
+        <div class="relative w-[320px] h-[380px] md:w-[380px] md:h-[440px]">
+          <!-- Stack of cards -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <!-- Card 3 (back) -->
+            <div class="absolute w-[280px] h-[340px] md:w-[340px] md:h-[400px] rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] shadow-2xl"
+              style="transform: translate(24px, 24px) rotate(4deg);"
+            >
+              <div class="p-4 font-mono text-xs text-[#525252]">
+                <div class="text-[#22c55e] mb-2">0003-auth-refactor.md</div>
+                <div class="text-[#a3a3a3]">status: in-progress</div>
+                <div class="text-[#a3a3a3]">priority: critical</div>
+              </div>
+            </div>
+
+            <!-- Card 2 (middle) -->
+            <div class="absolute w-[280px] h-[340px] md:w-[340px] md:h-[400px] rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] shadow-2xl"
+              style="transform: translate(12px, 12px) rotate(2deg);"
+            >
+              <div class="p-4 font-mono text-xs text-[#525252]">
+                <div class="text-[#22c55e] mb-2">0002-session-timeout.md</div>
+                <div class="text-[#a3a3a3]">status: open</div>
+                <div class="text-[#a3a3a3]">priority: high</div>
+              </div>
+            </div>
+
+            <!-- Card 1 (front) -->
+            <div class="absolute w-[280px] h-[340px] md:w-[340px] md:h-[400px] rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] shadow-2xl animate-float"
+              style="box-shadow: 0 0 60px rgba(34, 197, 94, 0.08);"
+            >
+              <div class="p-5 font-mono text-sm">
+                <div class="text-[#525252] mb-3">---</div>
+                <div class="space-y-1">
+                  <div><span class="text-[#a3a3a3]">id:</span> <span class="text-[#22c55e]">1</span></div>
+                  <div><span class="text-[#a3a3a3]">title:</span> <span class="text-[#f5f5f5]">"Fix login bug"</span></div>
+                  <div><span class="text-[#a3a3a3]">status:</span> <span class="text-[#22c55e]">open</span></div>
+                  <div><span class="text-[#a3a3a3]">priority:</span> <span class="text-[#f59e0b]">critical</span></div>
+                  <div><span class="text-[#a3a3a3]">labels:</span> <span class="text-[#f5f5f5]">[bug, auth]</span></div>
+                </div>
+                <div class="text-[#525252] mt-3 mb-3">---</div>
+                <div class="text-[#a3a3a3] leading-relaxed">
+                  Description and notes go here as free-form Markdown.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+</style>

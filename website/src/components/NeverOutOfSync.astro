@@ -1,0 +1,109 @@
+---
+import { GitCommit, History, CheckCircle2 } from '@lucide/astro';
+---
+
+<section id="sync" class="py-32 px-6 md:px-8 lg:px-12">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Left: Text -->
+      <div class="flex flex-col gap-6">
+        <div class="inline-flex">
+          <span class="font-mono text-xs font-medium uppercase tracking-[0.05em] text-[#525252] bg-[#141414] border border-[#262626] rounded-full px-3 py-1">
+            Version Control
+          </span>
+        </div>
+
+        <h2 class="text-4xl md:text-[44px] font-bold leading-[1.1] tracking-[-0.02em]">
+          Always in sync
+          <br />
+          <span class="text-[#22c55e]">with your code</span>
+        </h2>
+
+        <p class="text-lg text-[#a3a3a3] leading-relaxed">
+          Your issues live in <code class="text-[#f5f5f5]">.issues/</code>, right next to <code class="text-[#f5f5f5]">src/</code>.
+          When you <code class="text-[#f5f5f5]">git checkout</code> a branch, your issues come with it.
+          When you <code class="text-[#f5f5f5]">git bisect</code> to find a bug, the issue state at that commit is exactly what you see.
+        </p>
+
+        <div class="flex flex-col gap-4 mt-2">
+          <div class="flex items-start gap-3">
+            <CheckCircle2 size={20} class="text-[#22c55e] mt-0.5 shrink-0" />
+            <div>
+              <h4 class="font-semibold text-[#f5f5f5]">Branch-aware</h4>
+              <p class="text-sm text-[#a3a3a3]">Issues follow branches. A feature branch has its own issues.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <CheckCircle2 size={20} class="text-[#22c55e] mt-0.5 shrink-0" />
+            <div>
+              <h4 class="font-semibold text-[#f5f5f5]">Bisect-friendly</h4>
+              <p class="text-sm text-[#a3a3a3]"><code>git bisect</code> shows the issue state at every commit in history.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <CheckCircle2 size={20} class="text-[#22c55e] mt-0.5 shrink-0" />
+            <div>
+              <h4 class="font-semibold text-[#f5f5f5]">History is truth</h4>
+              <p class="text-sm text-[#a3a3a3]"><code>git log .issues/</code> shows exactly when and why things changed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="flex flex-col gap-4">
+        <div class="rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] p-5 font-mono text-sm">
+          <div class="flex items-center gap-2 text-[#525252] mb-3 pb-3 border-b border-[#1f1f1f]">
+            <GitCommit size={14} class="w-[14px] h-[14px]" />
+            <span>git log --oneline</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-start gap-3">
+              <span class="text-[#525252] shrink-0">a1b2c3d</span>
+              <span class="text-[#22c55e]">Fix auth bug</span>
+            </div>
+            <div class="flex items-start gap-3 text-[#a3a3a3]">
+              <span class="text-[#525252] shrink-0"></span>
+              <span><span class="text-[#22c55e]">src/auth.go</span></span>
+            </div>
+            <div class="flex items-start gap-3 text-[#a3a3a3]">
+              <span class="text-[#525252] shrink-0"></span>
+              <span><span class="text-[#22c55e]">.issues/0001-fix-login-bug.md</span></span>
+            </div>
+            <div class="h-3" />
+            <div class="flex items-start gap-3">
+              <span class="text-[#525252] shrink-0">e4f5g6h</span>
+              <span class="text-[#a3a3a3]">Add dark mode toggle</span>
+            </div>
+            <div class="flex items-start gap-3 text-[#a3a3a3]">
+              <span class="text-[#525252] shrink-0"></span>
+              <span><span class="text-[#22c55e]">src/ui/dark-mode.ts</span></span>
+            </div>
+            <div class="flex items-start gap-3 text-[#a3a3a3]">
+              <span class="text-[#525252] shrink-0"></span>
+              <span><span class="text-[#22c55e]">.issues/0002-add-dark-mode.md</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-[#0c0c0c] border border-[#1f1f1f] p-5 font-mono text-sm">
+          <div class="flex items-center gap-2 text-[#525252] mb-3 pb-3 border-b border-[#1f1f1f]">
+            <History size={14} class="w-[14px] h-[14px]" />
+            <span>git show a1b2c3d:.issues/0001-fix-login-bug.md</span>
+          </div>
+          <div class="text-[#525252] mb-2">---</div>
+          <div class="space-y-1">
+            <div><span class="text-[#a3a3a3]">id:</span> <span class="text-[#22c55e]">1</span></div>
+            <div><span class="text-[#a3a3a3]">title:</span> <span class="text-[#f5f5f5]">"Fix login bug"</span></div>
+            <div><span class="text-[#a3a3a3]">status:</span> <span class="text-[#22c55e]">closed</span></div>
+            <div><span class="text-[#a3a3a3]">closed:</span> <span class="text-[#f5f5f5]">2026-03-04</span></div>
+          </div>
+          <div class="text-[#525252] mt-2 mb-2">---</div>
+          <div class="text-[#a3a3a3]">Fixed in src/auth.go. Password validation now rejects empty strings.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
