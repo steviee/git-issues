@@ -11,8 +11,8 @@ const {
   description = 'A git-native issue tracker. No database, no server, no accounts. Issues are Markdown files with YAML frontmatter, stored in your repository and version-controlled alongside your code.'
 } = Astro.props;
 
-const canonical = 'https://git-issues.dev';
-const ogImage = 'https://git-issues.dev/og-image.png';
+const canonical = 'https://steviee.github.io/git-issues/';
+const ogImage = 'https://steviee.github.io/git-issues/og-image.png';
 ---
 
 <!doctype html>
@@ -29,11 +29,17 @@ const ogImage = 'https://git-issues.dev/og-image.png';
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="git-issues" />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="git-issues — Issues that move with your code" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="git-issues — Issues that move with your code" />
     <script is:inline>
       (function() {
         const theme = localStorage.getItem('theme') || 'dark';
