@@ -2,6 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
+	"strings"
+	"time"
 
 	"github.com/steviee/git-issues/internal/config"
 	"github.com/steviee/git-issues/internal/git"
@@ -44,6 +48,7 @@ var claimCmd = &cobra.Command{
 
 		iss.Status = "in-progress"
 		iss.Closed = ""
+		iss.Claim = buildClaim(cmd)
 
 		if err := issue.Save(issuesDir, iss); err != nil {
 			return err
@@ -53,9 +58,44 @@ var claimCmd = &cobra.Command{
 			git.Stage(iss.FilePath)
 		}
 
+		if iss.Claim != nil && iss.Claim.Agent != "" {
+			fmt.Printf("Claimed: #%d %s (%s)\n", id, iss.Title, iss.Claim.Agent)
+			return nil
+		}
+
 		fmt.Printf("Claimed: #%d %s\n", id, iss.Title)
 		return nil
 	},
+}
+
+func init() {
+	claimCmd.Flags().String("agent", "", "agent or human claiming the issue (defaults to GIT_ISSUES_AGENT, then USER)")
+}
+
+func buildClaim(cmd *cobra.Command) *issue.Claim {
+	agent, _ := cmd.Flags().GetString("agent")
+	agent = strings.TrimSpace(agent)
+	if agent == "" {
+		agent = strings.TrimSpace(os.Getenv("GIT_ISSUES_AGENT"))
+	}
+	if agent == "" {
+		agent = strings.TrimSpace(os.Getenv("USER"))
+	}
+
+	return &issue.Claim{
+		Agent:  agent,
+		At:     time.Now().UTC().Format(time.RFC3339),
+		Branch: gitOutput("rev-parse", "--abbrev-ref", "HEAD"),
+		Commit: gitOutput("rev-parse", "--short", "HEAD"),
+	}
+}
+
+func gitOutput(args ...string) string {
+	out, err := exec.Command("git", args...).Output()
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(out))
 }
 
 var doneCmd = &cobra.Command{

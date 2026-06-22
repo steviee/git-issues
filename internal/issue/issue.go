@@ -30,9 +30,17 @@ type Issue struct {
 	Created   string    `yaml:"created" json:"created"`
 	Updated   string    `yaml:"updated" json:"updated"`
 	Closed    string    `yaml:"closed,omitempty" json:"closed,omitempty"`
+	Claim     *Claim    `yaml:"claim,omitempty" json:"claim,omitempty"`
 
 	Body     string `yaml:"-" json:"-"`
 	FilePath string `yaml:"-" json:"-"`
+}
+
+type Claim struct {
+	Agent  string `yaml:"agent,omitempty" json:"agent,omitempty"`
+	At     string `yaml:"at,omitempty" json:"at,omitempty"`
+	Branch string `yaml:"branch,omitempty" json:"branch,omitempty"`
+	Commit string `yaml:"commit,omitempty" json:"commit,omitempty"`
 }
 
 func ParseFile(filePath string) (*Issue, error) {
